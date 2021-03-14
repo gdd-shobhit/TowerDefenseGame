@@ -24,8 +24,8 @@ public class TowerInstance : MonoBehaviour
     /// </summary>
     public void NewRound()
     {
-        int minFireRate = TowerRegistry.towerDefinitions[type].minFireRate;
-        int maxFireRate = TowerRegistry.towerDefinitions[type].maxFireRate;
+        int minFireRate = Registry.towerDefinitions[type].minFireRate;
+        int maxFireRate = Registry.towerDefinitions[type].maxFireRate;
 
         if (minFireRate != maxFireRate)
         {
@@ -38,8 +38,8 @@ public class TowerInstance : MonoBehaviour
             }
         }
 
-        currentDamage = Random.Range(TowerRegistry.towerDefinitions[type].minDamage, TowerRegistry.towerDefinitions[type].maxDamage);
+        currentDamage = Random.Range(Registry.towerDefinitions[type].minDamage, Registry.towerDefinitions[type].maxDamage);
 
-        health = Mathf.Max(TowerRegistry.towerDefinitions[type].ContainsEffect(TowerEffectType.PlaceOnPath), 1);
+        health = Mathf.Max(Registry.towerDefinitions[type].ContainsEffect(TowerEffectType.PlaceOnPath), 1);
     }
 }
