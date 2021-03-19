@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Targetting types for towers
@@ -24,6 +25,7 @@ public class TowerDefinition
     public int minDamage;
     public int maxDamage;
     public List<TowerEffectDef> towerEffects;
+    private GameObject prefab;
 
     public TowerDefinition(string name, int cost, int range, TargettingType targettingType, int minFireRate, int maxFireRate, int minDamage, int maxDamage, List<TowerEffectDef> towerEffects = null)
     {
@@ -38,6 +40,7 @@ public class TowerDefinition
         this.towerEffects = towerEffects;
         if (this.towerEffects == null)
             this.towerEffects = new List<TowerEffectDef>();
+        prefab = Resources.Load<GameObject>("Prefabs/Towers/" + name);
     }
 
     /// <summary>
@@ -53,5 +56,16 @@ public class TowerDefinition
                 return effectDef.modifier;
         }
         return 0;
+    }
+
+    /// <summary>
+    /// Generates a tower instance from a tower template
+    /// </summary>
+    /// <returns>A new tower instance of the given type</returns>
+    public GameObject GenerateInstance(bool active)
+    {
+        GameObject tower = GameObject.Instantiate(prefab);
+        prefab.SetActive(active);
+        return tower;
     }
 }

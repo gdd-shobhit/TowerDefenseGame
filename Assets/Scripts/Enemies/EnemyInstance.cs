@@ -5,12 +5,8 @@
 /// </summary>
 public class EnemyInstance : MonoBehaviour
 {
+    [SerializeField]
     private int health;
-
-    public EnemyInstance(EnemyType type)
-    {
-        health = Registry.enemyDefinitions[type].health;
-    }
 
     /// <summary>
     /// Deals damage to the enemy instance

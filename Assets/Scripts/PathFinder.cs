@@ -1,39 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Moves a gameobject smoothly along a stored path over time
+/// </summary>
 public class PathFinder : MonoBehaviour
 {
-    List<GameObject> paths;
-    // right now its hardcoded. Its gonna be automated for final
-    public GameObject path1;
-    public GameObject path2;
-    public GameObject path3;
-    public GameObject path4;
-    public GameObject path5;
-    public GameObject path6;
-    public GameObject path7;
     public float speed = 1.0f;
 
     int counter = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        paths = new List<GameObject>();
-        paths.Add(path1);
-        paths.Add(path2);
-        paths.Add(path3);
-        paths.Add(path4);
-        paths.Add(path5);
-        paths.Add(path6);
-        paths.Add(path7);
-    }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Moves the pathfinder to the next spot on the path
+    /// </summary>
     void FixedUpdate()
     {
-  
-        if (counter >= paths.Count)
+        if (counter >= Registry.path.Count)
         {
             //gameObject.SetActive(false);
 
@@ -45,14 +26,14 @@ public class PathFinder : MonoBehaviour
             counter = 0;
         }
 
-        if (counter < paths.Count)
+        if (counter < Registry.path.Count)
         {
-            this.transform.position += (paths[counter].transform.position - transform.position).normalized * Time.deltaTime * speed;
-            if ((paths[counter].transform.position - this.transform.position).magnitude < 1f)
+            transform.position += (Registry.path[counter].transform.position - transform.position).normalized * Time.deltaTime * speed;
+            if ((Registry.path[counter].transform.position - transform.position).magnitude < 1f)
             {
+                transform.position = Registry.path[counter].transform.position;
                 counter++;
             }
         }
-
     }
 }

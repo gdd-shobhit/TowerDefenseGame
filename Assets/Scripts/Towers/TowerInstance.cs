@@ -12,10 +12,8 @@ public class TowerInstance : MonoBehaviour
     public float currentFireRate { get { return fireRate > 0 ? fireRate : -1.0f / fireRate; } }
     public int health;
 
-    public TowerInstance(TowerType type, bool active = true)
+    public void Start()
     {
-        this.type = type;
-        this.active = active;
         NewRound();
     }
 
