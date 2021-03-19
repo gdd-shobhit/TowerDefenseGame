@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Tower type names for readability
@@ -66,6 +67,7 @@ public class Registry
             EnemyType.Basic,
             new EnemyDefinition
             (
+                name: "Basic Enemy",
                 health: 2,
                 moveSpeed: 1
             )
@@ -74,6 +76,7 @@ public class Registry
             EnemyType.Speedy,
             new EnemyDefinition
             (
+                name: "Speedy Enemy",
                 health: 2,
                 moveSpeed: 2
             )
@@ -82,20 +85,32 @@ public class Registry
             EnemyType.Tank,
             new EnemyDefinition
             (
+                name: "Tank Enemy",
                 health: 4,
                 moveSpeed: 1
             )
         }
     };
 
+    public static List<GameObject> path = new List<GameObject>();
+
+    /// <summary>
+    /// Loads any registry resources that are not hard-coded
+    /// </summary>
+    public static void LoadRegistry()
+    {
+        path.AddRange(GameObject.FindGameObjectsWithTag("Path"));
+        path.Sort(delegate (GameObject g1, GameObject g2) { return g1.name.CompareTo(g2.name); });
+    }
+
     /// <summary>
     /// Generates a tower instance from a tower template
     /// </summary>
     /// <param name="towerType">The tower template to use</param>
     /// <returns>A new tower instance of the given type</returns>
-    public static TowerInstance GenerateInstance(TowerType towerType, bool active = true)
+    public static GameObject GenerateInstance(TowerType towerType, bool active = true)
     {
-        return new TowerInstance(towerType, active);
+        return towerDefinitions[towerType].GenerateInstance(active);
     }
 
     /// <summary>
@@ -103,8 +118,10 @@ public class Registry
     /// </summary>
     /// <param name="enemyType">The enemy template to use</param>
     /// <returns>A new enemy instance of the given type</returns>
-    public static EnemyInstance GenerateInstance(EnemyType enemyType)
+    public static GameObject GenerateInstance(EnemyType enemyType)
     {
-        return new EnemyInstance(enemyType);
+        GameObject enemy = enemyDefinitions[enemyType].GenerateInstance();
+        enemy.GetComponent<PathFinder>().speed = enemyDefinitions[enemyType].moveSpeed;
+        return enemy;
     }
 }

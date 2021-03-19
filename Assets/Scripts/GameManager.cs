@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +10,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            Registry.LoadRegistry();
         }
         else
         {
@@ -25,6 +23,4 @@ public class GameManager : MonoBehaviour
     {
 
     }
-
-
 }
