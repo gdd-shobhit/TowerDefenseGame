@@ -12,7 +12,9 @@ public class Player : MonoBehaviour
         health = 20;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// take care of changing scenes when health drops zero
+    /// </summary>
     void Update()
     {
         if(health <= 0)
@@ -22,6 +24,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Decreases health by 1 (take damage by 1)
+    /// </summary>
     public void TakeDamage()
     {
         health--;
