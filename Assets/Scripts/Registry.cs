@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public enum TowerType
 {
+    None,
     Basic,
     Bomb
 }

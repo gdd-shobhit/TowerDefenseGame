@@ -4,59 +4,42 @@
 /// Tile is a class that holds whether it is a path tile, if there is a 
 /// tower on it and the position,
 /// </summary>
-public class Tile
+public class Tile : MonoBehaviour
 {
+    [SerializeField]
     private bool pathTile = false;
-    private bool taken = false;
-    private Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
+    public TowerInstance occupyingTower = null;
+    public Vector2Int position;
 
     /// <summary>
-    /// constructor accepts if its a path tile, if has a tower on top
-    /// and a position on the screen
+    /// Grabs if this is a path tile
     /// </summary>
-    /// <param name="vPathTile"></param>
-    /// <param name="vTaken"></param>
-    /// <param name="vPosition"></param>
-    public Tile(bool vPathTile, bool vTaken, Vector3 vPosition)
-    {
-        pathTile = vPathTile;
-        taken = vTaken;
-        position = vPosition;
-    }
-
-    /// <summary>
-    /// grabs if this is a path tile
-    /// </summary>
-    /// <returns></returns>
     public bool GetPathTile()
     {
         return pathTile;
     }
 
     /// <summary>
-    /// returns if there is a tower on top
+    /// Returns if there is a tower on top
     /// </summary>
-    /// <returns></returns>
-    public bool GetTaken()
+    public bool IsTaken()
     {
-        return taken;
+        return occupyingTower != null;
     }
 
     /// <summary>
-    /// can set if there is a tower on top
+    /// Returns the position of the tile in the tile array
     /// </summary>
-    /// <param name="vTaken"></param>
-    public void SetTaken(bool vTaken)
+    public Vector2Int GetPosition()
     {
-        taken = vTaken;
+        return new Vector2Int(Mathf.RoundToInt(transform.position.y / 5), Mathf.RoundToInt(transform.position.x / -5));
     }
 
     /// <summary>
-    /// grabs the position on the screen.
+    /// Tells the GameManager when this tile is clicked
     /// </summary>
-    /// <returns></returns>
-    public Vector3 GetPosition()
+    private void OnMouseDown()
     {
-        return position;
+        GameManager.instance.TileClicked(position);
     }
 }

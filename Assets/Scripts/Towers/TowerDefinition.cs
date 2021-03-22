@@ -40,7 +40,7 @@ public class TowerDefinition
         this.towerEffects = towerEffects;
         if (this.towerEffects == null)
             this.towerEffects = new List<TowerEffectDef>();
-        prefab = Resources.Load<GameObject>("Prefabs/Towers/" + name);
+        prefab = Resources.Load<GameObject>("Towers/" + name);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class TowerDefinition
     /// <returns>The modifier of the effect, 0 if it doesn't have the given type</returns>
     public int ContainsEffect(TowerEffectType type)
     {
-        foreach(TowerEffectDef effectDef in towerEffects)
+        foreach (TowerEffectDef effectDef in towerEffects)
         {
             if (effectDef.effectType == type)
                 return effectDef.modifier;

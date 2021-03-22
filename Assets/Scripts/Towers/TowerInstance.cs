@@ -35,6 +35,10 @@ public class TowerInstance : MonoBehaviour
                 fireRate -= 2;
             }
         }
+        else
+        {
+            fireRate = maxFireRate;
+        }
 
         currentDamage = Random.Range(Registry.towerDefinitions[type].minDamage, Registry.towerDefinitions[type].maxDamage);
 
