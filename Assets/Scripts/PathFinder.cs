@@ -23,6 +23,7 @@ public class PathFinder : MonoBehaviour
             //GameObject.Destroy(gameObject);
 
             transform.position = new Vector3(0, 0, -3);
+            
             counter = 0;
         }
 
