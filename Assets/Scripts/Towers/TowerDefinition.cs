@@ -68,4 +68,12 @@ public class TowerDefinition
         prefab.SetActive(active);
         return tower;
     }
+
+    /// <summary>
+    /// Returns whether this tower can be placed on the path
+    /// </summary>
+    public bool PlacableOnPath()
+    {
+        return ContainsEffect(TowerEffectType.PlaceOnPath) > 0;
+    }
 }

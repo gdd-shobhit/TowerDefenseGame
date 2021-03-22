@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
             DisplayTowerInfo(selectedTile.occupyingTower);
         }
         //If placing nothing or unable to place on the selected tile
-        else if (selectedTowerType == TowerType.None || selectedTile.GetPathTile() || currencyCount < Registry.towerDefinitions[selectedTowerType].cost)
+        else if (selectedTowerType == TowerType.None || (selectedTile.GetPathTile() != Registry.towerDefinitions[selectedTowerType].PlacableOnPath()) || currencyCount < Registry.towerDefinitions[selectedTowerType].cost)
         {
             selectedTowerType = TowerType.None;
             DisplayTowerInfo(selectedTowerType);
