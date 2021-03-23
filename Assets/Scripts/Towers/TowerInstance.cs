@@ -12,9 +12,45 @@ public class TowerInstance : MonoBehaviour
     public float currentFireRate { get { return fireRate > 0 ? fireRate : -1.0f / fireRate; } }
     public int health;
 
+    private float timeSinceLastFire;
+
     public void Start()
     {
         NewRound();
+    }
+
+    /// <summary>
+    /// Keeps track of how long since the last time this tower shot
+    /// </summary>
+    public void Update()
+    {
+        if (active && timeSinceLastFire < currentFireRate)
+            timeSinceLastFire += Time.deltaTime;
+    }
+
+    /// <summary>
+    /// Returns whether this tower can fire this frame
+    /// </summary>
+    /// <returns></returns>
+    public bool CanFire()
+    {
+        return active && timeSinceLastFire >= currentFireRate;
+    }
+
+    /// <summary>
+    /// Updates values that change when the tower fires
+    /// </summary>
+    public void Fire()
+    {
+        timeSinceLastFire = 0;
+        if(health > 0)
+        {
+            health--;
+            if(health == 0)
+            {
+                active = false;
+            }
+        }
     }
 
     /// <summary>
@@ -22,6 +58,8 @@ public class TowerInstance : MonoBehaviour
     /// </summary>
     public void NewRound()
     {
+        active = true;
+
         int minFireRate = Registry.towerDefinitions[type].minFireRate;
         int maxFireRate = Registry.towerDefinitions[type].maxFireRate;
 
@@ -42,6 +80,8 @@ public class TowerInstance : MonoBehaviour
 
         currentDamage = Random.Range(Registry.towerDefinitions[type].minDamage, Registry.towerDefinitions[type].maxDamage);
 
-        health = Mathf.Max(Registry.towerDefinitions[type].ContainsEffect(TowerEffectType.PlaceOnPath), 1);
+        health = Registry.towerDefinitions[type].ContainsEffect(TowerEffectType.PlaceOnPath);
+
+        timeSinceLastFire = currentFireRate;
     }
 }

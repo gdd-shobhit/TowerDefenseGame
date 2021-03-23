@@ -51,8 +51,8 @@ public class Registry
                 cost: 3,
                 range: 2,
                 targettingType: TargettingType.Single,
-                minFireRate: -2,
-                maxFireRate: -2,
+                minFireRate: 2,
+                maxFireRate: 2,
                 minDamage: 2,
                 maxDamage: 2,
                 towerEffects: new List<TowerEffectDef>()
@@ -67,10 +67,10 @@ public class Registry
             (
                 name: "Spike Tower",
                 cost: 3,
-                range: 1,
+                range: 0,
                 targettingType: TargettingType.Single,
-                minFireRate: 50,
-                maxFireRate: 50,
+                minFireRate: -50,
+                maxFireRate: -50,
                 minDamage: 1,
                 maxDamage: 1,
                 towerEffects: new List<TowerEffectDef>()
@@ -89,7 +89,7 @@ public class Registry
             (
                 name: "Basic Enemy",
                 health: 2,
-                moveSpeed: 1
+                moveSpeed: 5
             )
         },
         {
@@ -98,7 +98,7 @@ public class Registry
             (
                 name: "Speedy Enemy",
                 health: 2,
-                moveSpeed: 2
+                moveSpeed: 10
             )
         },
         {
@@ -107,7 +107,7 @@ public class Registry
             (
                 name: "Tank Enemy",
                 health: 4,
-                moveSpeed: 1
+                moveSpeed: 5
             )
         }
     };
@@ -142,6 +142,7 @@ public class Registry
     {
         GameObject enemy = enemyDefinitions[enemyType].GenerateInstance();
         enemy.GetComponent<PathFinder>().speed = enemyDefinitions[enemyType].moveSpeed;
+        enemy.GetComponent<EnemyInstance>().SetHealth(enemyDefinitions[enemyType].health);
         return enemy;
     }
 }

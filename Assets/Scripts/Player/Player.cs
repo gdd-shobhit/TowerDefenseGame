@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
+
+/// <summary>
+/// Controls the loss condition for the game
+/// </summary>
 public class Player : MonoBehaviour
 {
     // for now
@@ -17,7 +20,7 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if(health <= 0)
+        if (health <= 0)
         {
             // will load the gameover scene
             SceneManager.LoadScene(3);

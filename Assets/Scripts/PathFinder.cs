@@ -14,24 +14,15 @@ public class PathFinder : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        if (counter >= Registry.path.Count)
-        {
-            //gameObject.SetActive(false);
-
-            //Not supposed to but i dont know about how many enemies and how we gonna do
-            //so just destyroying it right now
-            //GameObject.Destroy(gameObject);
-
-            transform.position = new Vector3(0, 0, -3);
-            
-            counter = 0;
-        }
-
         if (counter < Registry.path.Count)
         {
-            transform.position += (Registry.path[counter].transform.position - transform.position).normalized * Time.deltaTime * speed;
-            if ((Registry.path[counter].transform.position - transform.position).magnitude < 1f)
+            EnemyInstance thisEnemy = GetComponent<EnemyInstance>();
+            Vector3 distanceTravelled = (Registry.path[counter].transform.position - transform.position).normalized * Time.deltaTime * speed;
+            transform.position += distanceTravelled;
+            thisEnemy?.Travel(distanceTravelled.magnitude);
+            if (Vector3.Distance(Registry.path[counter].transform.position, transform.position) < 1f)
             {
+                thisEnemy?.Travel(Vector3.Distance(Registry.path[counter].transform.position, transform.position));
                 transform.position = Registry.path[counter].transform.position;
                 counter++;
             }
