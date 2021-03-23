@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public EnemyManager enemyManager;
     public GameObject StartRoundsButton;
     public bool inRound = false;
+    public TowerInstance playerControlledTower;
 
     private TowerType selectedTowerType = TowerType.None;
     private int currency;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
             player = GameObject.Find("Player");
             Registry.LoadRegistry();
             currencyCount = 10;
+            towerInstances.Add(playerControlledTower);
         }
         else
         {
