@@ -14,7 +14,7 @@ public class EnemyDefinition
         this.name = name;
         this.health = health;
         this.moveSpeed = moveSpeed;
-        prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
+        prefab = Resources.Load<GameObject>("Enemies/" + name);
     }
 
     /// <summary>

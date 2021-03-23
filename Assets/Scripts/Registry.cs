@@ -6,8 +6,10 @@ using UnityEngine;
 /// </summary>
 public enum TowerType
 {
+    None,
     Basic,
-    Bomb
+    Bomb,
+    Spike
 }
 
 /// <summary>
@@ -56,6 +58,24 @@ public class Registry
                 towerEffects: new List<TowerEffectDef>()
                 {
                     new TowerEffectDef(TowerEffectType.ExplosiveShot, 1)
+                }
+            )
+        },
+        {
+            TowerType.Spike,
+            new TowerDefinition
+            (
+                name: "Spike Tower",
+                cost: 3,
+                range: 1,
+                targettingType: TargettingType.Single,
+                minFireRate: 50,
+                maxFireRate: 50,
+                minDamage: 1,
+                maxDamage: 1,
+                towerEffects: new List<TowerEffectDef>()
+                {
+                    new TowerEffectDef(TowerEffectType.PlaceOnPath, 10)
                 }
             )
         }
