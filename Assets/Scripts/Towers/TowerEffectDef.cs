@@ -3,7 +3,7 @@
 /// </summary>
 public enum TowerEffectType
 {
-    //Modifier is the range of the explosion
+    //Modifier is the range of the explosion (0 = only tile target is on)
     ExplosiveShot,
     //Modifier is the tower health
     PlaceOnPath

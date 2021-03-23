@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public Text currencyCountText;
     public TileManager tileManager;
     public GameObject TowerInfoDisplay;
+    public EnemyManager enemyManager;
+    public GameObject StartRoundsButton;
+    public bool inRound = false;
 
     private TowerType selectedTowerType = TowerType.None;
     private int currency;
@@ -33,12 +36,50 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
 
+    /// <summary>
+    /// Fires any towers that can fire this frame
+    /// </summary>
     void Update()
     {
+        if (inRound)
+        {
+            foreach (TowerInstance tower in towerInstances)
+            {
+                if (tower.CanFire())
+                {
+                    List<EnemyInstance> enemiesInRange = enemyManager.GetEnemiesAroundTower(tower);
+                    if (enemiesInRange.Count == 0)
+                        continue;
+                    if (Registry.towerDefinitions[tower.type].targettingType == TargettingType.Single)
+                    {
+                        float AoERange = Registry.towerDefinitions[tower.type].ContainsEffect(TowerEffectType.ExplosiveShot);
+                        if (AoERange == 0)
+                            enemiesInRange.RemoveRange(1, enemiesInRange.Count - 1);
+                        else
+                        {
+                            enemiesInRange = enemyManager.GetEnemiesAroundPosition(enemiesInRange[0].transform.position, 2.5f + 5 * (AoERange - 1));
+                        }
+                    }
+                    foreach (EnemyInstance enemy in enemiesInRange)
+                    {
+                        if (enemy.TakeDamage(tower.currentDamage))
+                            enemyManager.DestroyEnemyInstance(enemy);
+                    }
+                    tower.Fire();
+                }
+            }
+        }
+    }
 
+    /// <summary>
+    /// Starts spawning enemies
+    /// </summary>
+    public void StartRounds()
+    {
+        inRound = true;
+        StartRoundsButton.SetActive(false);
     }
 
     /// <summary>

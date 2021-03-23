@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Generates and stores the map
+/// </summary>
 public class TileManager : MonoBehaviour
 {
     public GameObject pathTilePrefab;
