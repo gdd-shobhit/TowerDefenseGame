@@ -38,6 +38,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawns an enemy of a given type at the enemy spawn point
+    /// </summary>
+    /// <param name="type">Type of enemy to spawn</param>
     private void SpawnEnemy(EnemyType type)
     {
         enemies.Add(Registry.GenerateInstance(type).GetComponent<EnemyInstance>());
