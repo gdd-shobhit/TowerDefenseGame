@@ -74,6 +74,7 @@ public class EnemyInstance : MonoBehaviour
             // right now it doesnt decrease by 1 because there are instances where in few frames the magnitude is lesser than 0.1 alot of times
             // we can fix it when we say that this object dies or be inactive later
             GameManager.instance.player.GetComponent<Player>().TakeDamage();
+            Debug.Log("NOOOOO");
             GameManager.instance.enemyManager.DestroyEnemyInstance(this);
         }
     }

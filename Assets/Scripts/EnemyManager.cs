@@ -7,8 +7,8 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     private List<EnemyInstance> enemies = new List<EnemyInstance>();
-    private List<float> spawnTimers;
-    private List<float> spawnRates;
+    private float spawnTimers;
+    private float spawnRates;
     private int round;
     private int numberOfEnemyTypes;
     private List<int> amountOfEnemyTypes = new List<int>();
@@ -33,8 +33,8 @@ public class EnemyManager : MonoBehaviour
             enemiesSpawnedIn.Add(0);
         }
 
-        spawnTimers = new List<float>() { 0, 0, 0 };
-        spawnRates = new List<float> { 1f, 4.5f, 3.5f };
+        spawnTimers = 0;
+        spawnRates = 2.5f;
     }
 
     /// <summary>
@@ -44,38 +44,41 @@ public class EnemyManager : MonoBehaviour
     {
         int finishedSpawns = 0;
 
+        //checks to see if the maximum amount of 
+        //enemies are spawned in per round.
         for (int i = 0; i < numberOfEnemyTypes; i++)
         { 
             if (amountOfEnemyTypes[i] == enemiesSpawnedIn[i])
             {
-                finishedSpawns = 0;
+                finishedSpawns++;
             }
         }
 
 
         if (GameManager.instance.inRound)
-        {
+        {   
+            //makes sure that at least one enemy type can still be spawned in
             if (finishedSpawns < numberOfEnemyTypes)
             {
-                for (int i = 0; i < spawnTimers.Count; i++)
+                
+                spawnTimers += Time.deltaTime;
+                while (spawnTimers >= spawnRates)
                 {
-                    Debug.Log("noooo");
-                    spawnTimers[i] += Time.deltaTime;
-                    while (spawnTimers[i] >= spawnRates[i])
+                    spawnTimers = 0;
+                
+                    //makes sure the enemy type is not spawning in only enemies that
+                    //still have enemies from their total amount to spawn in.
+                    int enemyType = Random.Range(0, 3);
+                    while (amountOfEnemyTypes[enemyType] == enemiesSpawnedIn[enemyType])
                     {
-                        spawnTimers[i] -= spawnRates[i];
-
-                        int enemyType = Random.Range(0, 3);
-                        while (amountOfEnemyTypes[enemyType] <= enemiesDestroyed[enemyType])
-                        {
-                            enemyType = Random.Range(0, 3);
-                            Debug.Log("nooooo");
-                        }
-
-                        Debug.Log(enemyType + " = ememy type spawn");
-                        SpawnEnemy((EnemyType)enemyType);
-
+                        enemyType = Random.Range(0, 3);
+                        Debug.Log("nooooo");
                     }
+                
+                    Debug.Log(enemyType + " = ememy type spawn");
+                    enemiesSpawnedIn[enemyType]++;
+                    SpawnEnemy((EnemyType)enemyType);
+                
                 }
             }
         }
@@ -116,8 +119,8 @@ public class EnemyManager : MonoBehaviour
 
             //GameManager.instance.inRound = false;
             //GameManager.instance.StartRoundsButton.SetActive(true);
-            spawnTimers = new List<float>() { 0, 0, 0 };
-            spawnRates = new List<float> { 1f, 4.5f, 3.5f };
+            spawnTimers = 0;
+            spawnRates = 2.5f;
             IncreaseRound();
         } 
     }

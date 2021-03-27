@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
                     foreach (EnemyInstance enemy in enemiesInRange)
                     {
                         if (enemy.TakeDamage(tower.currentDamage))
+                            Debug.Log("YESSSSSS");
                             enemyManager.DestroyEnemyInstance(enemy);
                     }
                     tower.Fire();
