@@ -662,6 +662,8 @@ MonoBehaviour:
   currencyCountText: {fileID: 541294508}
   tileManager: {fileID: 515988752}
   TowerInfoDisplay: {fileID: 1382718930}
+  RangeQuad: {fileID: 7498324186983437937, guid: 377ea248b1a2236499ad1b1b699f5477, type: 3}
+  RangeQuadCopy: {fileID: 0}
 --- !u!4 &667501932
 Transform:
   m_ObjectHideFlags: 0
