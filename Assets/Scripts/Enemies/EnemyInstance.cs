@@ -7,6 +7,7 @@ public class EnemyInstance : MonoBehaviour
 {
     private int health;
     private float distanceTravelled;
+    private int enemyType = -1;
 
     /// <summary>
     /// Returns the distance this enemy has travelled
@@ -43,6 +44,24 @@ public class EnemyInstance : MonoBehaviour
     {
         health -= damage;
         return health <= 0;
+    }
+
+    /// <summary>
+    /// sets the type of enemy that this instance is
+    /// </summary>
+    /// <param name="vType"></param>
+    public void SetEnemyType(int vType)
+    {
+        enemyType = vType;
+    }
+
+    /// <summary>
+    /// returns the type that the enemy is
+    /// </summary>
+    /// <returns></returns>
+    public int GetEnemyType()
+    {
+        return enemyType;
     }
 
     /// <summary>
