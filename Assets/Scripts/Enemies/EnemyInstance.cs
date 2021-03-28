@@ -7,6 +7,7 @@ public class EnemyInstance : MonoBehaviour
 {
     private int health;
     private float distanceTravelled;
+    private int enemyType = -1;
 
     /// <summary>
     /// Returns the distance this enemy has travelled
@@ -46,6 +47,24 @@ public class EnemyInstance : MonoBehaviour
     }
 
     /// <summary>
+    /// sets the type of enemy that this instance is
+    /// </summary>
+    /// <param name="vType"></param>
+    public void SetEnemyType(int vType)
+    {
+        enemyType = vType;
+    }
+
+    /// <summary>
+    /// returns the type that the enemy is
+    /// </summary>
+    /// <returns></returns>
+    public int GetEnemyType()
+    {
+        return enemyType;
+    }
+
+    /// <summary>
     /// Checks for if the enemy reached player or not
     /// </summary>
     private void Update()
@@ -55,6 +74,7 @@ public class EnemyInstance : MonoBehaviour
             // right now it doesnt decrease by 1 because there are instances where in few frames the magnitude is lesser than 0.1 alot of times
             // we can fix it when we say that this object dies or be inactive later
             GameManager.instance.player.GetComponent<Player>().TakeDamage();
+            Debug.Log("NOOOOO");
             GameManager.instance.enemyManager.DestroyEnemyInstance(this);
         }
     }
