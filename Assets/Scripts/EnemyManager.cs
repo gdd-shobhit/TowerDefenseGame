@@ -17,15 +17,20 @@ public class EnemyManager : MonoBehaviour
 
     public GameObject enemySpawn;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Will set the number of enemies at the beginning of the game.
+    /// Also sets the round to 1 and sets the spawn timers and rates
+    /// </summary>
     void Start()
     {
         round = 1;
-        amountOfEnemyTypes.Add(5 * round + 1);
+        amountOfEnemyTypes.Add(5 * round + 1); //starts off with a set amount
         enemiesDestroyed.Add(0);
         enemiesSpawnedIn.Add(0);
         numberOfEnemyTypes = 3;
 
+        //sets all the other enemies type to 0 amount as they will
+        //spawn in later into the game
         for (int i = 1; i < numberOfEnemyTypes; i++)
         {
             amountOfEnemyTypes.Add(0);
@@ -34,11 +39,11 @@ public class EnemyManager : MonoBehaviour
         }
 
         spawnTimers = 0;
-        spawnRates = 2.5f;
+        spawnRates = .5f;
     }
 
     /// <summary>
-    /// Spawns the enemies for each frame
+    /// First checks to see if all the enemies have been spawned in
     /// </summary>
     void Update()
     {
@@ -72,10 +77,9 @@ public class EnemyManager : MonoBehaviour
                     while (amountOfEnemyTypes[enemyType] == enemiesSpawnedIn[enemyType])
                     {
                         enemyType = Random.Range(0, 3);
-                        Debug.Log("nooooo");
                     }
-                
-                    Debug.Log(enemyType + " = ememy type spawn");
+                    
+                    //increase the amount of spawneded enemies per type then spawn the enemy into the game
                     enemiesSpawnedIn[enemyType]++;
                     SpawnEnemy((EnemyType)enemyType);
                 
@@ -97,6 +101,8 @@ public class EnemyManager : MonoBehaviour
 
     /// <summary>
     /// Destroys an enemy when they die
+    /// Also checks to see if all the enemies have been
+    /// destroyed. If so it will increase the round count
     /// </summary>
     public void DestroyEnemyInstance(EnemyInstance enemy)
     {
@@ -105,22 +111,19 @@ public class EnemyManager : MonoBehaviour
         Destroy(enemy.gameObject);
 
         int enemiesLeft = 0;
+           
+        //checks to see if all the enemies are destroyed by their type
         for(int i = 0; i < numberOfEnemyTypes; i++)
         {
             if(enemiesDestroyed[i] == amountOfEnemyTypes[i])
             {
-                Debug.Log(enemiesDestroyed[i] + " enemies Destroyed for " + i);
                 enemiesLeft++;
             }
         }
 
+        //if all enemies are destroyed by their type then increase the round
         if(enemiesLeft == numberOfEnemyTypes)
         {
-
-            //GameManager.instance.inRound = false;
-            //GameManager.instance.StartRoundsButton.SetActive(true);
-            spawnTimers = 0;
-            spawnRates = 2.5f;
             IncreaseRound();
         } 
     }
