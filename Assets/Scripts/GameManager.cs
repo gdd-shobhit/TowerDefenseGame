@@ -181,11 +181,16 @@ public class GameManager : MonoBehaviour
         DisplayTowerInfo(selectedTowerType);
     }
 
+    /// <summary>
+    /// Displays a tower's range with visual representation
+    /// </summary>
+    /// <param name="tower"></param>
+    /// <param name="position"></param>
     public void DisplayTowerRange(TowerInstance tower, Vector3 position)
     {
         TowerDefinition towerInfo = Registry.towerDefinitions[tower.type];
         //Equation to display range on tile grid, An = A1 + ( n - 1 ) * 10
-        RangeQuad.transform.localScale *= (5 + (towerInfo.range - 1) * 10);
+        RangeQuad.transform.localScale *= (15 + (towerInfo.range - 1) * 10);
         
 
         RangeQuadCopy = Instantiate(RangeQuad, position + new Vector3(0, 0, -3), Quaternion.identity);
