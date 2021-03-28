@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -140,6 +141,8 @@ public class GameManager : MonoBehaviour
             textList[2].text = "";
             textList[3].text = "";
             textList[4].text = "";
+            textList[5].text = "";
+            textList[6].text = "";
             return;
         }
         TowerDefinition towerInfo = Registry.towerDefinitions[type];
@@ -148,6 +151,13 @@ public class GameManager : MonoBehaviour
         textList[2].text = "Range: " + towerInfo.range;
         textList[3].text = "Fire Rate: " + (towerInfo.minFireRate == towerInfo.maxFireRate ? "" + towerInfo.maxFireRate : (towerInfo.minFireRate + " - " + towerInfo.maxFireRate));
         textList[4].text = "Damage: " + (towerInfo.minDamage == towerInfo.maxDamage ? "" + towerInfo.maxDamage : (towerInfo.minDamage + " - " + towerInfo.maxDamage));
+        textList[5].text = "Targetting Type: " + (towerInfo.targettingType == TargettingType.Single ? "Single Target" : "All in Range");
+        textList[6].text = "";
+        foreach (TowerEffectType effect in Enum.GetValues(typeof(TowerEffectType)))
+        {
+            if (towerInfo.ContainsEffect(effect) != 0)
+                textList[6].text += Registry.towerEffectStrings[effect];
+        }
 
     }
 
@@ -164,6 +174,13 @@ public class GameManager : MonoBehaviour
         textList[2].text = "Range: " + towerInfo.range;
         textList[3].text = "Fire Rate: " + selectedTile.occupyingTower.currentFireRate;
         textList[4].text = "Damage: " + selectedTile.occupyingTower.currentDamage;
+        textList[5].text = "Targetting Type: " + (towerInfo.targettingType == TargettingType.Single ? "Single Target" : "All in Range");
+        textList[6].text = "";
+        foreach (TowerEffectType effect in Enum.GetValues(typeof(TowerEffectType)))
+        {
+            if (towerInfo.ContainsEffect(effect) != 0)
+                textList[6].text += Registry.towerEffectStrings[effect];
+        }
     }
 
     /// <summary>

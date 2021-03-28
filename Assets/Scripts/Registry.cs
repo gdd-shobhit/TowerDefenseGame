@@ -112,6 +112,18 @@ public class Registry
         }
     };
 
+    public static Dictionary<TowerEffectType, string> towerEffectStrings = new Dictionary<TowerEffectType, string>()
+    {
+        {
+            TowerEffectType.PlaceOnPath,
+            "This tower is placable on the path.\n"
+        },
+        {
+            TowerEffectType.ExplosiveShot,
+            "Shots from this tower explode, dealing damage to surrounding enemies.\n"
+        }
+    };
+
     public static List<GameObject> path = new List<GameObject>();
 
     /// <summary>
