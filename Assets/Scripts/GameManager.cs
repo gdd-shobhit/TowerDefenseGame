@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public bool inRound = false;
     public TowerInstance playerControlledTower;
 
+    public GameObject RangeQuad;
+    public GameObject RangeQuadCopy;
+
     private TowerType selectedTowerType = TowerType.None;
     private int currency;
     private int currencyCount { get { return currency; } set { currency = value; currencyCountText.text = "Currency: " + currency; } }
@@ -32,6 +35,7 @@ public class GameManager : MonoBehaviour
             player = GameObject.Find("Player");
             Registry.LoadRegistry();
             currencyCount = 10;
+            RangeQuad.transform.localScale = new Vector3(1, 1, 1);
             towerInstances.Add(playerControlledTower);
         }
         else
@@ -91,12 +95,17 @@ public class GameManager : MonoBehaviour
     /// <param name="position">The tile that was clicked</param>
     public void TileClicked(Vector2Int position)
     {
+        //Reset Selector Quad
+        RangeQuad.transform.localScale = new Vector3(1, 1, 1);
+        Destroy(RangeQuadCopy);
+
         selectedTile = tileManager.tiles[position.x, position.y];
         //If that tile already has a tower on it
         if (selectedTile.IsTaken())
         {
             selectedTowerType = TowerType.None;
             DisplayTowerInfo(selectedTile.occupyingTower);
+            DisplayTowerRange(selectedTile.occupyingTower, selectedTile.transform.position);
         }
         //If placing nothing or unable to place on the selected tile
         else if (selectedTowerType == TowerType.None || (selectedTile.GetPathTile() != Registry.towerDefinitions[selectedTowerType].PlacableOnPath()) || currencyCount < Registry.towerDefinitions[selectedTowerType].cost)
@@ -113,6 +122,7 @@ public class GameManager : MonoBehaviour
             towerInstances.Add(newTower.GetComponent<TowerInstance>());
             newTower.transform.position = selectedTile.transform.position + new Vector3(0, 0, -3);
             selectedTile.occupyingTower = newTower.GetComponent<TowerInstance>();
+            DisplayTowerRange(selectedTile.occupyingTower, selectedTile.transform.position);
         }
     }
 
@@ -169,5 +179,20 @@ public class GameManager : MonoBehaviour
         else
             selectedTowerType = towerType;
         DisplayTowerInfo(selectedTowerType);
+    }
+
+    /// <summary>
+    /// Displays a tower's range with visual representation
+    /// </summary>
+    /// <param name="tower"></param>
+    /// <param name="position"></param>
+    public void DisplayTowerRange(TowerInstance tower, Vector3 position)
+    {
+        TowerDefinition towerInfo = Registry.towerDefinitions[tower.type];
+        //Equation to display range on tile grid, An = A1 + ( n - 1 ) * 10
+        RangeQuad.transform.localScale *= (15 + (towerInfo.range - 1) * 10);
+        
+
+        RangeQuadCopy = Instantiate(RangeQuad, position + new Vector3(0, 0, -3), Quaternion.identity);
     }
 }
