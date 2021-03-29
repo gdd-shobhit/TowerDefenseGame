@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         round = 1;
-        amountOfEnemyTypes.Add(5 * round + 1); //starts off with a set amount
+        amountOfEnemyTypes.Add(10 * round + 1); //starts off with a set amount
         enemiesDestroyed.Add(0);
         enemiesSpawnedIn.Add(0);
         numberOfEnemyTypes = 3;
@@ -136,7 +136,7 @@ public class EnemyManager : MonoBehaviour
     public void IncreaseRound()
     {
         round++;
-        amountOfEnemyTypes[0] = 5 * round + 1;
+        amountOfEnemyTypes[0] = 10 * round + 1;
         enemiesDestroyed[0] = 0;
         enemiesSpawnedIn[0] = 0;
 
@@ -148,7 +148,7 @@ public class EnemyManager : MonoBehaviour
 
             if (round % (i + 1) == 0)
             {
-                amountOfEnemyTypes[i] += 2 * round;
+                amountOfEnemyTypes[i] += 4 * round;
             }
         }
     }
