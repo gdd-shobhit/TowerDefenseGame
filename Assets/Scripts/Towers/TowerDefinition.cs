@@ -16,6 +16,7 @@ public enum TargettingType
 public class TowerDefinition
 {
     public string name;
+    public string name3D;
     public int cost;
     public int range;
     public TargettingType targettingType;
@@ -24,12 +25,15 @@ public class TowerDefinition
     public int maxFireRate;
     public int minDamage;
     public int maxDamage;
+    public ParticleSystem particleEffect;
     public List<TowerEffectDef> towerEffects;
     private GameObject prefab;
+    private GameObject prefab3D;
 
-    public TowerDefinition(string name, int cost, int range, TargettingType targettingType, int minFireRate, int maxFireRate, int minDamage, int maxDamage, List<TowerEffectDef> towerEffects = null)
+    public TowerDefinition(string name,string name3D, int cost, int range, TargettingType targettingType, int minFireRate, int maxFireRate, int minDamage, int maxDamage, List<TowerEffectDef> towerEffects = null)
     {
         this.name = name;
+        this.name3D = name3D;
         this.cost = cost;
         this.range = range;
         this.targettingType = targettingType;
@@ -38,9 +42,11 @@ public class TowerDefinition
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
         this.towerEffects = towerEffects;
+        this.particleEffect = particleEffect;
         if (this.towerEffects == null)
             this.towerEffects = new List<TowerEffectDef>();
         prefab = Resources.Load<GameObject>("Towers/" + name);
+        prefab3D = Resources.Load<GameObject>("Towers/" + name3D);
     }
 
     /// <summary>
@@ -62,11 +68,14 @@ public class TowerDefinition
     /// Generates a tower instance from a tower template
     /// </summary>
     /// <returns>A new tower instance of the given type</returns>
-    public GameObject GenerateInstance(bool active)
+    public List<GameObject> GenerateInstance(bool active)
     {
-        GameObject tower = GameObject.Instantiate(prefab);
+        List<GameObject> towers = new List<GameObject>();
+        towers.Add(GameObject.Instantiate(prefab));
+        towers.Add(GameObject.Instantiate(prefab3D));
         prefab.SetActive(active);
-        return tower;
+        prefab3D.SetActive(active);
+        return towers;
     }
 
     /// <summary>

@@ -40,6 +40,7 @@ public class Tile : MonoBehaviour
     /// </summary>
     private void OnMouseDown()
     {
+        Debug.Log("clicked");
         GameManager.instance.TileClicked(position);
     }
 }

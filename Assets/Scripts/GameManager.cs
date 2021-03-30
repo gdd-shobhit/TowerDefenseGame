@@ -21,9 +21,13 @@ public class GameManager : MonoBehaviour
 
     private TowerType selectedTowerType = TowerType.None;
     private int currency;
-    private int currencyCount { get { return currency; } set { currency = value; currencyCountText.text = "Currency: " + currency; } }
+    public int currencyCount { get { return currency; } set { currency = value; currencyCountText.text = "Currency: " + currency; } }
     private List<TowerInstance> towerInstances = new List<TowerInstance>();
     private Tile selectedTile;
+
+    // Particle Effects
+    public GameObject towerEffect;
+    public GameObject spikeEffect;
 
     /// <summary>
     /// Sets up the start of the game
@@ -48,7 +52,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Fires any towers that can fire this frame
     /// </summary>
-    void Update()
+    void FixedUpdate()
     {
         if (inRound)
         {
@@ -71,10 +75,22 @@ public class GameManager : MonoBehaviour
                     }
                     foreach (EnemyInstance enemy in enemiesInRange)
                     {
+                        float angleToRotate = 0;
+                        Vector3 directionOfCannon = Vector3.up;
                         if (enemy.TakeDamage(tower.currentDamage))
-                            Debug.Log("YESSSSSS");
+                        { 
+                            angleToRotate = Vector3.Angle(directionOfCannon, (tower.transform.position - enemy.transform.position));
+
+                            if (selectedTowerType == TowerType.Basic && tower.type == TowerType.Basic && tower.gameObject.name!= "PlayerControlledTower")
+                            {
+                                tower.gameObject.transform.localRotation = Quaternion.Euler(0, 0, -angleToRotate);
+                                directionOfCannon = -tower.gameObject.transform.position;
+                                gameObject.transform.up = directionOfCannon;
+                            }                               
                             enemyManager.DestroyEnemyInstance(enemy);
+                        }
                     }
+                   
                     tower.Fire();
                 }
             }
@@ -119,10 +135,14 @@ public class GameManager : MonoBehaviour
         {
             currencyCount -= Registry.towerDefinitions[selectedTowerType].cost;
             TowerDefinition towerInfo = Registry.towerDefinitions[selectedTowerType];
-            GameObject newTower = Registry.GenerateInstance(selectedTowerType);
+            List<GameObject> towers = Registry.GenerateInstance(selectedTowerType);
+            GameObject newTower = towers[0];
+            GameObject newTower3D = towers[1];
             towerInstances.Add(newTower.GetComponent<TowerInstance>());
-            newTower.transform.position = selectedTile.transform.position + new Vector3(0, 0, -3);
-            selectedTile.occupyingTower = newTower.GetComponent<TowerInstance>();
+            Debug.Log(selectedTile.transform.position);
+            newTower3D.transform.position = selectedTile.transform.position + new Vector3(0, 0, -3);
+            newTower.transform.position = selectedTile.transform.position + new Vector3(0, 0, -3.1f);
+            selectedTile.occupyingTower = newTower3D.GetComponent<TowerInstance>();
             DisplayTowerRange(selectedTile.occupyingTower, selectedTile.transform.position);
         }
     }
@@ -211,5 +231,15 @@ public class GameManager : MonoBehaviour
         
 
         RangeQuadCopy = Instantiate(RangeQuad, position + new Vector3(0, 0, -3), Quaternion.identity);
+    }
+
+    public void ChangeSceneToMain()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public void Close()
+    {
+        Application.Quit();
     }
 }
