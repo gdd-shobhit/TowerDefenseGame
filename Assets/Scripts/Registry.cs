@@ -34,13 +34,14 @@ public class Registry
             new TowerDefinition
             (
                 name: "Basic Tower",
+                name3D: "Basic Tower3D",
                 cost: 1,
                 range: 2,
                 targettingType: TargettingType.Single,
                 minFireRate: 1,
                 maxFireRate: 1,
                 minDamage: 2,
-                maxDamage: 2
+                maxDamage: 2               
             )
         },
         {
@@ -48,6 +49,7 @@ public class Registry
             new TowerDefinition
             (
                 name: "Bomb Tower",
+                name3D: "Bomb Tower3D",
                 cost: 3,
                 range: 2,
                 targettingType: TargettingType.Single,
@@ -66,6 +68,7 @@ public class Registry
             new TowerDefinition
             (
                 name: "Spike Tower",
+                name3D: "Spike Tower3D",
                 cost: 3,
                 range: 0,
                 targettingType: TargettingType.Single,
@@ -140,7 +143,7 @@ public class Registry
     /// </summary>
     /// <param name="towerType">The tower template to use</param>
     /// <returns>A new tower instance of the given type</returns>
-    public static GameObject GenerateInstance(TowerType towerType, bool active = true)
+    public static List<GameObject> GenerateInstance(TowerType towerType, bool active = true)
     {
         return towerDefinitions[towerType].GenerateInstance(active);
     }

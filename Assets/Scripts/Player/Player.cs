@@ -23,7 +23,9 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
             // will load the gameover scene
-            SceneManager.LoadScene(3);
+            health = 20;
+            GameManager.instance.currencyCount = 10;
+            SceneManager.LoadScene(2);
         }
     }
 

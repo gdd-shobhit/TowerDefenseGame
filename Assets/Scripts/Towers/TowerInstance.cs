@@ -9,6 +9,7 @@ public class TowerInstance : MonoBehaviour
     public int currentDamage;
     private int fireRate;
     public bool active;
+    public GameObject spriteObject;
     public float currentFireRate { get { return fireRate > 0 ? fireRate : -1.0f / fireRate; } }
     public int health;
 
@@ -42,6 +43,34 @@ public class TowerInstance : MonoBehaviour
     /// </summary>
     public void Fire()
     {
+        GameObject psObject=null;
+        switch (type)
+        {
+            case TowerType.Basic:
+                psObject = GameManager.instance.towerEffect;
+                break;
+            case TowerType.Bomb:
+                psObject = GameManager.instance.towerEffect;
+                break;
+            case TowerType.Spike:
+                psObject = GameManager.instance.spikeEffect;
+                break;
+            case TowerType.None:
+                psObject =null;
+                break;
+            default: psObject = null;
+                break;
+        }
+
+        if (psObject != null)
+        {        
+            psObject = Instantiate(psObject);
+            psObject.transform.position = gameObject.GetComponentInChildren<Transform>().position;
+            Debug.Log(psObject.transform.position);
+            ParticleSystem ps = psObject.GetComponent<ParticleSystem>();
+            ps.Play();
+        }
+
         timeSinceLastFire = 0;
         if(health > 0)
         {
